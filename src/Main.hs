@@ -68,7 +68,7 @@ compress alg content size =
                     mapM_ putWord32be encoded16
         RLE -> 
             let encoded = rle_encode (BL.unpack content)
-                write (x,n) | n >= 255 
+                write (x,n) | n > 255 
                                 = error $ "Main.compress.RLE: runlength too long: " ++ show (x,n)
                             | otherwise = putWord8 (fromIntegral n) >> putWord8 x
             in runPut $ do
