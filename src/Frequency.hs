@@ -48,5 +48,12 @@ frequency xs = assocs (create empty xs)
 create
   :: Ord a
   => Histogram a -> [a] -> Histogram a
-create = undefined -- TODO
+create h list = case list of
+  [] -> h
+  x:xs -> create (inc h x) xs -- TODO
+
+
+
+
+
 

@@ -23,34 +23,48 @@ import Data.Ord  (comparing)
 import Data.Char (isDigit)
 
 -- Convert the trees to a list, then amalgamate into a single tree.
-makeTree
-  :: Ord a
-  => [(a, Int)] -> Tree a
+makeTree :: Ord a => [(a, Int)] -> Tree a
 makeTree = makeCodes . toTreeList
 
 -- Huffman codes are created bottom up: look for the least two frequent
 -- letters, make these a new "isAlpha" (i.e. tree) and repeat until one tree
 -- formed.  The function toTreeList makes the initial data structure.
-toTreeList
-  :: Ord a
-  => [(a, Int)] -> [Tree a]
-toTreeList = undefined -- TODO
+toTreeList :: Ord a => [(a, Int)] -> [Tree a]
+toTreeList list = case list of
+    [] -> []
+    (key, val):xs -> [Leaf val key] ++ toTreeList xs  -- TODO
 
 -- The value of a tree.                     
 value :: Tree a -> Int
-value = undefined -- TODO
-
+value tree = case tree of
+  Leaf val key -> val-- TODOL
+  Node val left right -> val
 -- Merge two trees.                          
 merge :: Tree a -> Tree a -> Tree a
-merge = undefined -- TODO
+merge first second = Node (value first + value second) (first) (second)-- TODO
 
 -- Sort a list of frequency trees by value (in ascending order)
 sort :: [Tree a] -> [Tree a]
-sort = undefined -- TODO
+sort tree = case tree of
+  [] -> []
+  [a] -> [sortTree a]
+  x:x1:xs
+    | value x <= value x1 -> [sortTree x]++sort(x1:xs)
+    | otherwise -> sort(x1:xs)++[sortTree x]-- TODO
+
+sortTree :: Tree a -> Tree a
+sortTree tree = case tree of
+  Leaf val key -> Leaf val key
+  Node val left right
+    | value left >= value right -> Node val (sortTree right) (sortTree left)
+    | otherwise -> Node val (sortTree left) (sortTree right)
 
 -- Merge the pair of trees at the front of the list
 mergeFirstPair :: [Tree a] -> [Tree a]
-mergeFirstPair = undefined -- TODO
+mergeFirstPair list = case list of
+  [] -> []
+  [a] -> [a]
+  x:x1:xs -> (merge x x1):xs-- TODO
 
 -- Make codes: amalgamate the whole list.               
 makeCodes :: [Tree a] -> Tree a
