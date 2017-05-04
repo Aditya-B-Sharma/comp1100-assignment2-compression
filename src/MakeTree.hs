@@ -68,7 +68,10 @@ mergeFirstPair list = case list of
 
 -- Make codes: amalgamate the whole list.               
 makeCodes :: [Tree a] -> Tree a
-makeCodes = undefined -- TODO
+makeCodes tree = case tree of
+   [] -> error "No valid list argument given."
+   [a] -> a
+   tree -> makeCodes (mergeFirstPair tree) --  TODO
 
 ------------------------------------ Tests -----------------------------------
 test :: Bool

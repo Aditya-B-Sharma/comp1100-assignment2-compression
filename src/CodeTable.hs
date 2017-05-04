@@ -20,4 +20,11 @@ codeTable t = fromList (convert [] t)
 -- the HCode which codes the path in the tree to the current Node, and so
 -- codeTable is initialised with an empty such sequence.
 convert :: Ord a => HCode -> Tree a -> [(a,HCode)]
-convert = undefined -- TODO
+convert bitList tree = case tree of
+   Leaf num a -> [(a, bitList)]-- TODO
+   Node a left right -> convert bitList left ++ convert bitList right
+--     [] -> error "Empty"
+--   L:xs -> convert xs left
+--     R:xs -> convert xs right
+
+
