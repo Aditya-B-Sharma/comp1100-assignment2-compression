@@ -26,6 +26,7 @@ convert bitList tree = case tree of
 --     [] -> error "Empty"
 --     L:xs -> convert xs left
 --     R:xs -> convert xs right
--- 
+--
+--
 
 
