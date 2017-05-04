@@ -22,7 +22,7 @@ codeTable t = fromList (convert [] t)
 convert :: Ord a => HCode -> Tree a -> [(a,HCode)]
 convert bitList tree = case tree of
    Leaf num a -> [(a, bitList)]-- TODO
-   Node a left right -> convert bitList left ++ convert bitList right
+   Node a left right -> convert (bitList++[L]) left ++ convert (bitList++[R]) right
 --     [] -> error "Empty"
 --     L:xs -> convert xs left
 --     R:xs -> convert xs right
