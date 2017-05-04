@@ -24,7 +24,7 @@ convert bitList tree = case tree of
    Leaf num a -> [(a, bitList)]-- TODO
    Node a left right -> convert bitList left ++ convert bitList right
 --     [] -> error "Empty"
---   L:xs -> convert xs left
+--     L:xs -> convert xs left
 --     R:xs -> convert xs right
 
 
