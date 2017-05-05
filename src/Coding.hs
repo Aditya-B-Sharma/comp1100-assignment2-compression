@@ -45,6 +45,8 @@ decodeMessage tree code = case (help tree code) of
 help :: Ord a => Tree a -> HCode -> (a, HCode)
 help tree (x:xs) = case tree of
   Leaf val a -> (a, (x:xs))
-  Node a left right -> help left xs ++ help right xs
---    L:xs -> help left xs
---    R:xs -> help right xs
+  Node a left right -> case (x:xs) of
+    [] -> []
+    L:xs -> help left xs
+    R:xs -> help right xs
+
