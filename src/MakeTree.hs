@@ -25,35 +25,40 @@ import Data.Char (isDigit)
 -- Convert the trees to a list, then amalgamate into a single tree.
 makeTree :: Ord a => [(a, Int)] -> Tree a
 makeTree = makeCodes . toTreeList
-
+-- u6051965
 -- Huffman codes are created bottom up: look for the least two frequent
 -- letters, make these a new "isAlpha" (i.e. tree) and repeat until one tree
 -- formed.  The function toTreeList makes the initial data structure.
 toTreeList :: Ord a => [(a, Int)] -> [Tree a]
 toTreeList list = case list of
     [] -> []
-    (key, val):xs -> [Leaf val key] ++ toTreeList xs  -- TODO
+    (key, val):xs -> [Leaf val key] ++ toTreeList xs
 
+-- u6051965
 -- The value of a tree.                     
 value :: Tree a -> Int
 value tree = case tree of
-  Leaf val key -> val-- TODOL
+  Leaf val key -> val
   Node val left right -> val
+
+-- u6051965
 -- Merge two trees.                          
 merge :: Tree a -> Tree a -> Tree a
-merge first second = Node (value first + value second) (first) (second)-- TODO
+merge first second = Node (value first + value second) (first) (second)
 
+
+-- u6051965 -- Collaboration with Arham Qureshi - u6378881
 -- Sort a list of frequency trees by value (in ascending order)
-
 sort :: [Tree a] -> [Tree a]
 sort tree = sortBy (comparing value) tree
+
 
 --case tree of
 --  [] -> []
 --  [a] -> [sortTree a]
 --  x:x1:xs
 --    | value x <= value x1 -> [sortTree x]++sort(x1:xs)
---    | otherwise -> sort(x1:xs)++[sortTree x]-- TODO
+--    | otherwise -> sort(x1:xs)++[sortTree x]
 
 --sortTree :: Tree a -> Tree a
 --sortTree tree = case tree of
@@ -62,19 +67,21 @@ sort tree = sortBy (comparing value) tree
 --    | value left >= value right -> Node val (sortTree right) (sortTree left)
 --    | otherwise -> Node val (sortTree left) (sortTree right)
 
+-- u6051965
 -- Merge the pair of trees at the front of the list
 mergeFirstPair :: [Tree a] -> [Tree a]
 mergeFirstPair list = case sort list of
   [] -> []
   [a] -> [a]
-  x:x1:xs -> (merge x x1):xs-- TODO
+  x:x1:xs -> (merge x x1):xs
 
+-- u6051965
 -- Make codes: amalgamate the whole list.               
 makeCodes :: [Tree a] -> Tree a
 makeCodes tree = case tree of
    [] -> error "No valid list argument given."
    [a] -> a
-   tree -> makeCodes (mergeFirstPair tree) --  TODO
+   tree -> makeCodes (mergeFirstPair tree)
 
 ------------------------------------ Tests -----------------------------------
 test :: Bool

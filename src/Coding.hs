@@ -23,7 +23,11 @@ import Data.Maybe (fromMaybe)
 --encodeMessage table message = case message of
 --  [] -> error "blah"
 --  x:xs -> (lookup table x)++(encodeMessage table xs)  -- TODO
-
+-- u6051965
+-- Takes a coding table and a list of values (assumed from a given tree) and
+-- returns the Bit code (HCode) to get to this value in the tree
+-- Split given list into head and tail and recurse through it,
+-- applying given lookup function to find HCodes for each head element
 encodeMessage :: Ord a => Table a -> [a] -> HCode
 encodeMessage table [] = []
 encodeMessage table (x:xs) = (lookup table x) ++ (encodeMessage table xs)
@@ -37,7 +41,13 @@ lookup m c = fromMaybe (error "lookup") (Map.lookup c m)
 --                              
 -- The first tree argument is constant, being the tree of codes;
 -- the second represents the current position in the tree relative  
--- to the (partial) HCode read so far.               
+-- to the (partial) HCode read so far.
+
+-- u6051965 -- Collaboration with Osbert Chor u6379604
+-- Recurse through tree split into head and tail elements using
+-- a helper function applied recursively to the head which gives respective values
+-- depending on if the head is a node or leaf, if leaf, give value and append to rest of leaves
+-- which are found through recursion
 decodeMessage :: Ord a => Tree a -> HCode -> [a]
 decodeMessage tree (x:xs) = help tree (x:xs)
                              where
