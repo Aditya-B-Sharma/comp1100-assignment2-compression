@@ -64,6 +64,7 @@ sort tree = sortBy (comparing value) tree
 --sortTree tree = case tree of
 --  Leaf val key -> Leaf val key
 -- Node val left right
+--    | left == Node && right == Node -> Node val (sortTree right) (sortTree left)   --#
 --    | value left >= value right -> Node val (sortTree right) (sortTree left)
 --    | otherwise -> Node val (sortTree left) (sortTree right)
 

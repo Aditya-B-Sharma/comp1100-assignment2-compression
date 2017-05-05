@@ -22,7 +22,7 @@ import Data.Maybe (fromMaybe)
 --encodeMessage :: Ord a => Table a -> [a] -> HCode
 --encodeMessage table message = case message of
 --  [] -> error "blah"
---  x:xs -> (lookup table x)++(encodeMessage table xs)  -- TODO
+--  x:xs -> (lookup table x)++(encodeMessage table xs)
 -- u6051965
 -- Takes a coding table and a list of values (assumed from a given tree) and
 -- returns the Bit code (HCode) to get to this value in the tree
@@ -31,7 +31,7 @@ import Data.Maybe (fromMaybe)
 encodeMessage :: Ord a => Table a -> [a] -> HCode
 encodeMessage table [] = []
 encodeMessage table (x:xs) = (lookup table x) ++ (encodeMessage table xs)
--- TODO
+
 
 -- lookup looks up the meaning of an individual char in a Table.
 lookup :: Ord a => Table a -> a -> HCode

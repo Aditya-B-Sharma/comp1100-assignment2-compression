@@ -24,9 +24,7 @@ type Histogram a = Map a Int
 -- Example:
 -- >>> inc empty 'a'
 -- fromList [('a',1)]
-inc
-  :: Ord a
-  => Histogram a -> a -> Histogram a
+inc :: Ord a => Histogram a -> a -> Histogram a
 inc !h x =
   case lookup x h of
     Nothing -> insert x 1 h
@@ -45,9 +43,7 @@ frequency xs = assocs (create empty xs)
 -- Example:
 -- >>> create empty "abacab"
 -- fromList [('a',3),('b',2),('c',1)]
-create
-  :: Ord a
-  => Histogram a -> [a] -> Histogram a
+create :: Ord a => Histogram a -> [a] -> Histogram a
 create h list = case list of
   [] -> h
   x:xs -> create (inc h x) xs -- TODO
