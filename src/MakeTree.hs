@@ -46,19 +46,21 @@ merge first second = Node (value first + value second) (first) (second)-- TODO
 -- Sort a list of frequency trees by value (in ascending order)
 
 sort :: [Tree a] -> [Tree a]
-sort tree = case tree of
-  [] -> []
-  [a] -> [sortTree a]
-  x:x1:xs
-    | value x <= value x1 -> [sortTree x]++sort(x1:xs)
-    | otherwise -> sort(x1:xs)++[sortTree x]-- TODO
+sort tree = sortBy (comparing value) tree
 
-sortTree :: Tree a -> Tree a
-sortTree tree = case tree of
-  Leaf val key -> Leaf val key
-  Node val left right
-    | value left >= value right -> Node val (sortTree right) (sortTree left)
-    | otherwise -> Node val (sortTree left) (sortTree right)
+--case tree of
+--  [] -> []
+--  [a] -> [sortTree a]
+--  x:x1:xs
+--    | value x <= value x1 -> [sortTree x]++sort(x1:xs)
+--    | otherwise -> sort(x1:xs)++[sortTree x]-- TODO
+
+--sortTree :: Tree a -> Tree a
+--sortTree tree = case tree of
+--  Leaf val key -> Leaf val key
+-- Node val left right
+--    | value left >= value right -> Node val (sortTree right) (sortTree left)
+--    | otherwise -> Node val (sortTree left) (sortTree right)
 
 -- Merge the pair of trees at the front of the list
 mergeFirstPair :: [Tree a] -> [Tree a]

@@ -39,14 +39,17 @@ lookup m c = fromMaybe (error "lookup") (Map.lookup c m)
 -- the second represents the current position in the tree relative  
 -- to the (partial) HCode read so far.               
 decodeMessage :: Ord a => Tree a -> HCode -> [a]
-decodeMessage tree code = case (help tree code) of
-  (a, b) -> [a] ++ (decodeMessage tree b)
-
-help :: Ord a => Tree a -> HCode -> (a, HCode)
-help tree (x:xs) = case tree of
-  Leaf val a -> (a, (x:xs))
-  Node a left right -> case (x:xs) of
-    [] -> []
-    L:xs -> help left xs
-    R:xs -> help right xs
+decodeMessage tree (x:xs) = help tree (x:xs)
+                             where
+                               help (Node val left right) (L:xs) = help left xs
+                               help (Node val left right) (R:xs) = help right xs
+                               help (Leaf val key) xs = key : (help tree xs)
+                               help _ [] = []
+--help :: Ord a => Tree a -> HCode -> (a, HCode)
+--help tree (x:xs) = case tree of
+--  Leaf val a -> (a, (x:xs))
+--  Node a left right -> case (x:xs) of
+--    [] -> []
+--    L:xs -> help left xs
+--    R:xs -> help right xs
 
